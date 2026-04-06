@@ -4,6 +4,8 @@ A [DankMaterialShell](https://danklinux.com/docs/dankmaterialshell) desktop widg
 
 Supports **Hyprland**, **MangoWC**, **Sway**, and **Niri**.
 
+![Keybinding Cheat Sheet widget](example.png)
+
 ---
 
 ## Features
