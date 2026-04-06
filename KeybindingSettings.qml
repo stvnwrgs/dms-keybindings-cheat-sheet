@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Quickshell.Io
 import qs.Common
 import qs.Widgets
 import qs.Modules.Plugins
@@ -9,16 +10,45 @@ PluginSettings {
     id: root
     pluginId: "keybindingCheatSheet"
 
-    // ── Sections from widget cache (widget writes _cachedSections via setData) ──
-    readonly property var parsedSections: {
-        try {
-            var cached = pluginData._cachedSections || ""
-            return cached ? (JSON.parse(cached) || []) : []
-        } catch(e) { return [] }
+    readonly property string scriptPath:
+        Qt.resolvedUrl("parse-keybindings.sh").toString().replace(/^file:\/\//, "")
+
+    // ── Live-parsed sections (runs the parser whenever compositor/path changes) ──
+    property var parsedSections: []
+    property string _stdoutBuf: ""
+
+    function reloadSections() {
+        if (!pluginService) return
+        _stdoutBuf = ""
+        settingsParser.running = false
+        settingsParser.command = [
+            root.scriptPath,
+            root.loadValue("compositor", "hyprland"),
+            root.loadValue("configPath", ""),
+            root.loadValue("additionalFiles", "")
+        ]
+        settingsParser.running = true
+    }
+
+    onPluginServiceChanged: if (pluginService) reloadSections()
+
+    Process {
+        id: settingsParser
+        stdout: SplitParser {
+            onRead: data => root._stdoutBuf += data + "\n"
+        }
+        onExited: Qt.callLater(function() {
+            try {
+                var parsed = JSON.parse(root._stdoutBuf.trim())
+                root.parsedSections = parsed.sections || []
+            } catch(e) {
+                root.parsedSections = []
+            }
+        })
     }
 
     function hiddenSections() {
-        try { return JSON.parse(pluginData.hiddenSections || "[]") } catch(e) { return [] }
+        try { return JSON.parse(root.loadValue("hiddenSections", "[]") || "[]") } catch(e) { return [] }
     }
 
     function toggleSection(sectionId, nowVisible) {
@@ -179,6 +209,16 @@ PluginSettings {
         unit: "%"
     }
 
+    SliderSetting {
+        settingKey: "fontScale"
+        label: "Font Scale"
+        description: "Scale factor for all text in the widget"
+        defaultValue: 100
+        minimum: 50
+        maximum: 200
+        unit: "%"
+    }
+
     // ── Section order & visibility ─────────────────────────────────────────────
 
     ColumnLayout {
@@ -189,7 +229,7 @@ PluginSettings {
         function getSectionOrder() {
             var existingIds = root.parsedSections.map(s => s.id)
             try {
-                var saved = JSON.parse(pluginData.sectionOrder || "[]")
+                var saved = JSON.parse(root.loadValue("sectionOrder", "[]") || "[]")
                 // Filter out stale IDs that no longer exist
                 return saved.filter(id => existingIds.indexOf(id) !== -1)
             } catch(e) { return [] }
@@ -247,7 +287,7 @@ PluginSettings {
                 }
 
                 HoverHandler { id: reloadHover }
-                TapHandler { onTapped: { var dummy = pluginData._cachedSections } }
+                TapHandler { onTapped: root.reloadSections() }
             }
         }
 

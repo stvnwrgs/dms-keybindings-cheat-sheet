@@ -19,6 +19,7 @@ DesktopPluginComponent {
     readonly property string additionalFiles: pluginData.additionalFiles || ""
     readonly property int    numColumns:      Math.max(1, Math.min(5, parseInt(pluginData.columns) || 1))
     readonly property real   bgOpacity:       Math.max(0, Math.min(1, (pluginData.backgroundOpacity ?? 70) / 100))
+    readonly property real   fontScale:       Math.max(0.5, Math.min(2.0, (pluginData.fontScale ?? 100) / 100))
     readonly property color  accentColor: {
         var mode = pluginData.accentColorMode || "primary"
         if (mode === "secondary") return Theme.secondary
@@ -134,8 +135,6 @@ DesktopPluginComponent {
                     } else {
                         root.sections   = parsed.sections || []
                         root.parseError = ""
-                        // Cache for settings panel — setData writes to pluginData (shared)
-                        try { root.setData("_cachedSections", JSON.stringify(root.sections)) } catch(e) {}
                     }
                 } catch(e) {
                     root.parseError = "JSON parse failed: " + e
@@ -171,7 +170,7 @@ DesktopPluginComponent {
 
             StyledText {
                 text: "Keybindings"
-                font.pixelSize: Theme.fontSizeMedium
+                font.pixelSize: Theme.fontSizeMedium * root.fontScale
                 font.bold: true
                 color: Theme.surfaceText
             }
@@ -180,7 +179,7 @@ DesktopPluginComponent {
 
             StyledText {
                 text: root.compositor.toUpperCase()
-                font.pixelSize: Theme.fontSizeSmall - 1
+                font.pixelSize: (Theme.fontSizeSmall - 1) * root.fontScale
                 font.letterSpacing: 1.2
                 color: root.accentColor
             }
@@ -212,7 +211,7 @@ DesktopPluginComponent {
                     : root.parseError   ? "Could not parse config.\nCheck compositor and path in settings."
                                         : "No sections found.\nAdd # @section markers to your config."
                 color: (!root.loading && root.parseError) ? Theme.error : Theme.surfaceVariantText
-                font.pixelSize: Theme.fontSizeSmall
+                font.pixelSize: Theme.fontSizeSmall * root.fontScale
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -301,7 +300,7 @@ DesktopPluginComponent {
                     anchors.leftMargin: Theme.spacingS
                     text: (itemData.name || "").toUpperCase()
                     color: accent
-                    font.pixelSize: Theme.fontSizeSmall - 1
+                    font.pixelSize: (Theme.fontSizeSmall - 1) * root.fontScale
                     font.bold: true
                     font.letterSpacing: 0.8
                 }
@@ -334,7 +333,7 @@ DesktopPluginComponent {
                     width: parent.width - 6
                     text: itemData.key || ""
                     color: accent
-                    font.pixelSize: Theme.fontSizeSmall - 2
+                    font.pixelSize: (Theme.fontSizeSmall - 2) * root.fontScale
                     font.family: "monospace"
                     elide: Text.ElideRight
                     horizontalAlignment: Text.AlignHCenter
@@ -349,7 +348,7 @@ DesktopPluginComponent {
                 anchors.right: parent.right
                 text: itemData.description || ""
                 color: Theme.surfaceVariantText
-                font.pixelSize: Theme.fontSizeSmall - 1
+                font.pixelSize: (Theme.fontSizeSmall - 1) * root.fontScale
                 elide: Text.ElideRight
             }
         }
