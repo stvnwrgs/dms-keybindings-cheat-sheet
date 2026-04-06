@@ -63,12 +63,13 @@ binds {
 }
 ```
 
-Plain comments are ignored — only `# @section` (or `// @section` for niri) triggers a new section.
+Plain comments are ignored — only `# @section` (or `// @section` for Niri) triggers a new section. For Niri, all annotations must be inside the `binds { }` block.
 
 ### Ignoring bindings
 
 Wrap any bindings you don't want shown in the widget with `@ignore` / `@end-ignore`:
 
+**Hyprland / MangoWC / Sway**
 ```bash
 # @section Applications
 bind = $mainMod, Return, exec, alacritty
@@ -76,6 +77,18 @@ bind = $mainMod, Return, exec, alacritty
 # @ignore
 bind = $mainMod, X, exec, internal-debug-tool
 # @end-ignore
+```
+
+**Niri**
+```kdl
+binds {
+    // @section Applications
+    Mod+Return { spawn "alacritty"; }
+
+    // @ignore
+    Mod+X { spawn "internal-debug-tool"; }
+    // @end-ignore
+}
 ```
 
 ---
