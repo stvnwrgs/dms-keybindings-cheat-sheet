@@ -1,0 +1,46 @@
+{
+  "sections": [
+    {
+      "id": "wm",
+      "name": "Window Manager",
+      "bindings": [
+        { "key": "Super+Return", "description": "Open terminal" },
+        { "key": "Super+D", "description": "Open launcher" },
+        { "key": "Super+Q", "description": "Close window" },
+        { "key": "Super+F", "description": "Toggle fullscreen" },
+        { "key": "Super+Shift+Space", "description": "Toggle floating" },
+        { "key": "Super+H/J/K/L", "description": "Focus window left/down/up/right" }
+      ]
+    },
+    {
+      "id": "workspaces",
+      "name": "Workspaces",
+      "bindings": [
+        { "key": "Super+1–9", "description": "Switch to workspace" },
+        { "key": "Super+Shift+1–9", "description": "Move window to workspace" },
+        { "key": "Super+Tab", "description": "Next workspace" },
+        { "key": "Super+Shift+Tab", "description": "Previous workspace" }
+      ]
+    },
+    {
+      "id": "apps",
+      "name": "Applications",
+      "bindings": [
+        { "key": "Super+B", "description": "Open browser" },
+        { "key": "Super+E", "description": "Open file manager" },
+        { "key": "Super+C", "description": "Open calculator" },
+        { "key": "Print", "description": "Screenshot" },
+        { "key": "Shift+Print", "description": "Screenshot region" }
+      ]
+    },
+    {
+      "id": "system",
+      "name": "System",
+      "bindings": [
+        { "key": "Super+L", "description": "Lock screen" },
+        { "key": "Ctrl+Alt+Del", "description": "Session menu" },
+        { "key": "Super+Shift+R", "description": "Reload compositor" }
+      ]
+    }
+  ]
+}

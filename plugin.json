@@ -1,0 +1,14 @@
+{
+  "id": "keybindingCheatSheet",
+  "name": "Keybinding Cheat Sheet",
+  "description": "Provides a desktop widget to show keybindings parsed live from your compositor config",
+  "version": "1.0.0",
+  "author": "Steven Koehnke",
+  "icon": "keyboard",
+  "type": "desktop",
+  "capabilities": ["desktop-widget"],
+  "component": "./KeybindingCheatSheet.qml",
+  "settings": "./KeybindingSettings.qml",
+  "requires_dms": ">=1.2.0",
+  "permissions": ["settings_read", "settings_write", "process"]
+}
