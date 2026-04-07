@@ -345,7 +345,7 @@ parse_niri() {
 
 default_config_path() {
     case "$1" in
-        hyprland) echo "${HOME_DIR}/.config/hypr/hyprland.conf" ;;
+        hyprland) echo "${HOME_DIR}/.config/hypr/dms/binds.conf" ;;
         mangowc)  echo "${HOME_DIR}/.config/mango/config.conf" ;;
         sway)     echo "${HOME_DIR}/.config/sway/config" ;;
         niri)     echo "${HOME_DIR}/.config/niri/config.kdl" ;;

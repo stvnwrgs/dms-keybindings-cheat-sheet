@@ -27,7 +27,7 @@ PluginSettings {
             root.loadValue("configPath", ""),
             root.loadValue("additionalFiles", "")
         ]
-        settingsParser.running = true
+        Qt.callLater(function() { settingsParser.running = true })
     }
 
     onPluginServiceChanged: if (pluginService) reloadSections()
@@ -80,7 +80,7 @@ PluginSettings {
         settingKey: "configPath"
         label: "Config Path"
         description: "Leave empty to use the default path for the selected compositor"
-        placeholder: "~/.config/hypr/hyprland.conf"
+        placeholder: "~/.config/hypr/dms/binds.conf"
     }
 
     StringSetting {

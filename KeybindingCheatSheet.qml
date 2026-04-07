@@ -102,13 +102,15 @@ DesktopPluginComponent {
         stdoutBuf  = ""
         parseError = ""
         loading    = true
-        try {
-            parserProcess.running = false
-            parserProcess.running = true
-        } catch(e) {
-            loading    = false
-            parseError = "Could not start parser"
-        }
+        parserProcess.running = false
+        Qt.callLater(function() {
+            try {
+                parserProcess.running = true
+            } catch(e) {
+                loading    = false
+                parseError = "Could not start parser"
+            }
+        })
     }
 
     // ── Parser process ─────────────────────────────────────────────────────────
@@ -176,6 +178,22 @@ DesktopPluginComponent {
             }
 
             Item { Layout.fillWidth: true }
+
+            Rectangle {
+                width: 20; height: 20
+                radius: Theme.cornerRadius / 2
+                color: refreshHover.containsMouse ? Qt.rgba(root.accentColor.r, root.accentColor.g, root.accentColor.b, 0.15) : "transparent"
+
+                DankIcon {
+                    anchors.centerIn: parent
+                    name: "refresh"
+                    size: 14
+                    color: root.accentColor
+                }
+
+                HoverHandler { id: refreshHover }
+                TapHandler { onTapped: root.reload() }
+            }
 
             StyledText {
                 text: root.compositor.toUpperCase()

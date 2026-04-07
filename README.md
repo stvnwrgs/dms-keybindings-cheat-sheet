@@ -106,7 +106,7 @@ binds {
 
 | Compositor | Default path |
 |---|---|
-| Hyprland | `~/.config/hypr/hyprland.conf` |
+| Hyprland | `~/.config/hypr/dms/binds.conf` |
 | MangoWC | `~/.config/mango/config.conf` |
 | Sway | `~/.config/sway/config` |
 | Niri | `~/.config/niri/config.kdl` |
